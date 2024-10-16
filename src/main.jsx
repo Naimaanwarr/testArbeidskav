@@ -1,26 +1,26 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { createRoot } from "react-dom/client";
 
 const root = createRoot(document.getElementById('root'));
 
-function SongForm({ onNewAdd }) {
-    const [song, setSong] = React.useState("");
+function BookForm({ onNewAdd }) {
+    const [book, setBook] = useState("");
 
     function handleSubmit(e) {
         e.preventDefault();
-        console.log("Adding song:", song);
-        onNewAdd(song);
-        setSong("");
+        console.log("Adding book:", book);
+        onNewAdd(book);
+        setBook("");
     }
 
     return (
         <form onSubmit={handleSubmit}>
             <label>
-                Song title:
+                Book title:
                 <input
                     type="text"
-                    value={song}
-                    onChange={(e) => setSong(e.target.value)}
+                    value={book}
+                    onChange={(e) => setBook(e.target.value)}
                 />
             </label>
             <button type="submit">Add</button>
@@ -28,29 +28,28 @@ function SongForm({ onNewAdd }) {
     );
 }
 
-function MusicApplication() {
-     const[songs, setSongs] = useState([])
+function LibraryApplication() {
+    const [books, setBooks] = useState([]);
 
-    function handleNewAdd(song) {
-       setSongs((prevSongs) => [song, ...prevSongs]);
-
-
-        console.log("New song added:", song);
+    function handleNewAdd(book) {
+        setBooks((prevBooks) => [book, ...prevBooks]);
+        console.log("New book added:", book);
     }
 
-    return <>
-
-            <h1>My Favorite Songs</h1>
-
-        <ul>
-            {songs.map((song) => (<div key={song}> <input type={"checkbox"}/>
-                {song}
-            </div>) )}
-        </ul>
-
-            <SongForm onNewAdd={handleNewAdd} />
-        </>;
-
+    return (
+        <>
+            <h1>My Favorite Books</h1>
+            <ul>
+                {books.map((book) => (
+                    <div key={book}>
+                        <input type="checkbox" />
+                        {book}
+                    </div>
+                ))}
+            </ul>
+            <BookForm onNewAdd={handleNewAdd} />
+        </>
+    );
 }
 
-root.render(<MusicApplication />);
+root.render(<LibraryApplication />);
