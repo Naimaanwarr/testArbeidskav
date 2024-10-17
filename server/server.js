@@ -1,11 +1,22 @@
 import express from 'express';
 
 const app = express();
+app.use(express.json());
+
+const books = [{
+    title: "the book from the server"
+}];
 
 app.get("/api/books", (req, res) => {
-    res.send([{
-        title: "the book from the server",
-    }])
-})
+    res.json(books);
+});
 
-app.listen(3000);
+app.post("/api/books", (req, res) => {
+    const newBook = req.body;
+    books.push(newBook);
+    res.status(200).json(newBook);
+});
+
+app.listen(3000, () => {
+    console.log("Server running on port 3000");
+});
