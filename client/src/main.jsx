@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { createRoot } from "react-dom/client";
 
 const root = createRoot(document.getElementById('root'));
@@ -29,6 +29,19 @@ function BookForm({ onNewAdd }) {
 
 function LibraryApplication() {
     const [books, setBooks] = useState([]);
+
+    async function loadLibrary() {
+        const res = await fetch("/api/books");
+        if (res.ok){
+           setBooks(await res.json());
+        } else {
+            console.log("Error occurred while fetching books...");
+        }
+    }
+
+    useEffect(() => {
+        loadLibrary();
+    },[])
 
     async function handleNewAdd(book) {
         setBooks((prevBooks) => [book, ...prevBooks]);
