@@ -8,7 +8,6 @@ function BookForm({ onNewAdd }) {
 
     function handleSubmit(e) {
         e.preventDefault();
-        console.log("Adding book:", book);
         onNewAdd(book);
         setBook("");
     }
@@ -31,14 +30,21 @@ function BookForm({ onNewAdd }) {
 function LibraryApplication() {
     const [books, setBooks] = useState([]);
 
-    function handleNewAdd(book) {
+    async function handleNewAdd(book) {
         setBooks((prevBooks) => [book, ...prevBooks]);
         console.log("New book added:", book);
+        await fetch("/api/books", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(book),
+        })
     }
 
     return (
         <>
-            <h1>My Favorite Books</h1>
+            <h1>Books i want to read</h1>
             <ul>
                 {books.map((book) => (
                     <div key={book}>
